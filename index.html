@@ -143,19 +143,29 @@
 	/* work light: gentle brownout, never fully off */
 	.glow-work {
 		--x: var(--work-x); --y: var(--work-y); --size: var(--work-size);
-		--c: rgba(255, 250, 235, 0.72); --c-mid: rgba(255, 232, 190, 0.22);
+		--c: rgba(255, 252, 240, 0.95); --c-mid: rgba(255, 236, 200, 0.38);
 		animation: workCore 11s ease-in-out infinite;
 	}
 	.work-bloom {
-		--x: var(--work-x); --y: var(--work-y); --size: calc(var(--work-size) * 2.6);
+		--x: var(--work-x); --y: var(--work-y); --size: calc(var(--work-size) * 2.8);
 		background: radial-gradient(circle,
-			rgba(255, 248, 230, 0.30) 0%,
-			rgba(255, 236, 205, 0.16) 18%,
-			rgba(255, 220, 180, 0.07) 36%,
-			rgba(255, 210, 170, 0.02) 55%,
-			rgba(255, 210, 170, 0) 70%);
+			rgba(255, 250, 235, 0.55) 0%,
+			rgba(255, 240, 210, 0.30) 14%,
+			rgba(255, 225, 185, 0.14) 30%,
+			rgba(255, 210, 170, 0.05) 48%,
+			rgba(255, 210, 170, 0) 66%);
 		animation: workBloom 11s ease-in-out infinite;
 		will-change: opacity, transform;
+	}
+
+	/* light spilling down across the tools inside the case */
+	.work-spill {
+		--x: calc(var(--work-x) - 6%); --y: calc(var(--work-y) + 9%); --size: calc(var(--work-size) * 2.2);
+		background: radial-gradient(circle,
+			rgba(255, 245, 225, 0.22) 0%,
+			rgba(255, 230, 195, 0.10) 30%,
+			rgba(255, 220, 180, 0) 65%);
+		animation: workBloom 11s ease-in-out infinite;
 	}
 
 	/* ---------- fog ---------- */
@@ -165,10 +175,16 @@
 		top: 30%;
 		overflow: hidden;
 		pointer-events: none;
-		-webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,.5) 25%, #000 55%, #000 88%, rgba(0,0,0,.7) 100%);
-		mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,.5) 25%, #000 55%, #000 88%, rgba(0,0,0,.7) 100%);
+		-webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,.08) 10%, rgba(0,0,0,.25) 22%, rgba(0,0,0,.5) 34%, rgba(0,0,0,.78) 46%, #000 60%, #000 90%, rgba(0,0,0,.8) 100%);
+		mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,.08) 10%, rgba(0,0,0,.25) 22%, rgba(0,0,0,.5) 34%, rgba(0,0,0,.78) 46%, #000 60%, #000 90%, rgba(0,0,0,.8) 100%);
 	}
-	.fog-bank { position: absolute; left: 0; right: 0; will-change: transform, opacity; }
+	.fog-bank {
+		position: absolute; left: 0; right: 0;
+		will-change: transform, opacity;
+		/* feather the top of each bank so there's no visible line */
+		-webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,.25) 12%, rgba(0,0,0,.65) 26%, #000 42%, #000 100%);
+		mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,.25) 12%, rgba(0,0,0,.65) 26%, #000 42%, #000 100%);
+	}
 	.fog-layer {
 		position: absolute;
 		top: 0; bottom: 0; left: 0;
@@ -178,9 +194,9 @@
 		animation: drift var(--speed) linear infinite;
 		will-change: transform;
 	}
-	.fog-far  { top: -10%; bottom: 0;    opacity: .38; animation: bankFar 26s ease-in-out infinite; }
-	.fog-mid  { top: 15%;  bottom: -8%;  opacity: .42; animation: bankMid 19s ease-in-out infinite; }
-	.fog-near { top: 45%;  bottom: -12%; opacity: .30; animation: bankNear 13s ease-in-out infinite; }
+	.fog-far  { top: -20%; bottom: -5%;    opacity: .38; animation: bankFar 26s ease-in-out infinite; }
+	.fog-mid  { top: 0%;   bottom: -10%;  opacity: .42; animation: bankMid 19s ease-in-out infinite; }
+	.fog-near { top: 25%;  bottom: -15%; opacity: .30; animation: bankNear 13s ease-in-out infinite; }
 	.fog-far  .fog-layer { --tile: 1400px; --tile-h: 560px; --speed: 140s; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1400' height='560'><filter id='f' x='0' y='0' width='100%25' height='100%25'><feTurbulence type='fractalNoise' baseFrequency='0.0018 0.0055' numOctaves='5' seed='11' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.92  0 0 0 0 0.86  0 0 0 0 0.82  1.5 0 0 0 -0.45'/></filter><rect width='100%25' height='100%25' filter='url(%23f)'/></svg>"); }
 	.fog-mid  .fog-layer { --tile: 900px;  --tile-h: 450px; --speed: 75s;  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='900' height='450'><filter id='f' x='0' y='0' width='100%25' height='100%25'><feTurbulence type='fractalNoise' baseFrequency='0.0032 0.0085' numOctaves='5' seed='7' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 0.88  0 0 0 0 0.78  1.7 0 0 0 -0.6'/></filter><rect width='100%25' height='100%25' filter='url(%23f)'/></svg>"); background-position: 0 40px; }
 	.fog-near .fog-layer { --tile: 700px;  --tile-h: 300px; --speed: 38s;  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='700' height='300'><filter id='f' x='0' y='0' width='100%25' height='100%25'><feTurbulence type='fractalNoise' baseFrequency='0.0055 0.016' numOctaves='4' seed='23' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 0.84  0 0 0 0 0.72  2.3 0 0 0 -1.05'/></filter><rect width='100%25' height='100%25' filter='url(%23f)'/></svg>"); animation-direction: reverse; }
@@ -390,15 +406,15 @@
 		86% { opacity: .88; } 93%,100% { opacity: .78; }
 	}
 	@keyframes workBloom {
-		0%,66% { opacity: .30; transform: scale(1); }
-		71% { opacity: .16; transform: scale(.96); } 73% { opacity: .20; } 75% { opacity: .15; }
-		79% { opacity: .18; transform: scale(.97); }
-		86% { opacity: .48; transform: scale(1.05); }
-		95%,100% { opacity: .30; transform: scale(1); }
+		0%,66% { opacity: .85; transform: scale(1); }
+		71% { opacity: .45; transform: scale(.96); } 73% { opacity: .58; } 75% { opacity: .42; }
+		79% { opacity: .52; transform: scale(.97); }
+		86% { opacity: 1; transform: scale(1.05); }
+		95%,100% { opacity: .85; transform: scale(1); }
 	}
 	@keyframes workFog {
-		0%,66% { opacity: .35; } 71% { opacity: .20; } 73% { opacity: .25; } 75% { opacity: .18; }
-		79% { opacity: .22; } 86% { opacity: .52; } 95%,100% { opacity: .35; }
+		0%,66% { opacity: .55; } 71% { opacity: .30; } 73% { opacity: .38; } 75% { opacity: .28; }
+		79% { opacity: .34; } 86% { opacity: .75; } 95%,100% { opacity: .55; }
 	}
 	@keyframes drift { from { transform: translate3d(0,0,0); } to { transform: translate3d(calc(-1 * var(--tile)),0,0); } }
 	@keyframes bankFar  { 0%,100% { transform: translate3d(0,0,0); opacity: .38; } 50% { transform: translate3d(0,-3%,0); opacity: .30; } }
@@ -423,6 +439,7 @@
 		<div class="fog-pool fog-pool-work"><div class="fog-layer"></div></div>
 		<div class="glow glow-work"></div>
 		<div class="glow work-bloom"></div>
+		<div class="glow work-spill"></div>
 	</div>
 
 	<!-- ground fog across the whole screen -->
@@ -442,7 +459,7 @@
 
 		<p class="desc">
 			Spend <strong>$1,000 or more online</strong> and use promo code
-			<strong>SCARYPACK</strong> at checkout for your chance to win our
+			<strong>SCARYPACK26</strong> at checkout for your chance to win our
 			Halloween Milwaukee PACKOUT loaded with tools, treats and a few
 			frightening surprises.
 		</p>
@@ -459,7 +476,7 @@
 					<small>Promo code</small>
 					<span>Enter at checkout</span>
 				</div>
-				<div class="code">SCARYPACK</div>
+				<div class="code">SCARYPACK26</div>
 			</div>
 
 			<div class="qr">
@@ -471,7 +488,7 @@
 		<p class="fine">
 			<strong>Promotion runs through October 31, 2026.</strong>
 			Qualifying online orders must total $1,000 or more and use promo code
-			<strong>SCARYPACK</strong> at checkout. One winner will receive the featured
+			<strong>SCARYPACK26</strong> at checkout. One winner will receive the featured
 			Halloween Milwaukee PACKOUT giveaway package. See Terms &amp; Conditions at
 			gtsanders.com for complete eligibility, entry and prize details.
 		</p>
