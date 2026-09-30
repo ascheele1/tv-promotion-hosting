@@ -12,9 +12,10 @@
   that scales to fill the screen edge to edge.
 
   SETUP
-    1. IMAGE: IMG_URL below points at the desktop photo on
-       gtsanders.com. If this file is hosted elsewhere or the
-       path changes, update it.
+    1. IMAGE: packout-bg.jpg must sit next to this file
+       (index.html) in the same folder. Bump ?v=2 to ?v=3 etc.
+       whenever you replace the photo so the TV doesn't use
+       a cached copy.
     2. Open the page, press F11 (or launch Chrome with
        --kiosk <url>), then cast the tab / screen.
     3. If the TV crops the edges, set its picture size to
@@ -75,7 +76,7 @@
 		-webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 18%);
 		mask-image: linear-gradient(90deg, transparent 0%, #000 18%);
 		/* fallback in case the <img> is blocked; keep in sync with src */
-		background: url("Milwaukee-Packout-Giveaway_Halloween-2026.png") center / cover no-repeat;
+		background: url("packout-bg.jpg?v=2") center / cover no-repeat;
 
 		--window-x: 57%;   --window-y: 12%;   --window-size: 13.5%;
 		--work-x: 87.6%;   --work-y: 28.9%;   --work-size: 13.5%;
@@ -232,7 +233,7 @@
 		left: 150px;
 		top: 50%;
 		transform: translateY(-50%);
-		width: 900px;
+		width: 1000px;
 	}
 
 	.eyebrow {
@@ -321,13 +322,15 @@
 		font-size: 15px; font-weight: 800;
 		letter-spacing: .14em; text-transform: uppercase;
 	}
-	.code-label span { margin-top: 6px; font-size: 24px; font-weight: 700; white-space: nowrap; }
+	.code-label span { margin-top: 6px; font-size: 22px; font-weight: 700; white-space: nowrap; }
 	.code {
 		display: flex; align-items: center;
 		padding: 0 34px;
 		background: linear-gradient(135deg, #d8232d 0%, #b9141d 100%);
 		font-family: "Courier New", monospace;
 		font-size: 44px; font-weight: 900; letter-spacing: .06em;
+		white-space: nowrap;
+		flex-shrink: 0;
 		text-shadow: 0 2px 6px rgba(0,0,0,.3);
 	}
 
@@ -407,7 +410,7 @@
 	<!-- photo + lights -->
 	<div class="stage" aria-hidden="true">
 		<img id="tvPhoto"
-			src="Milwaukee-Packout-Giveaway_Halloween-2026.png"
+			src="packout-bg.jpg?v=2"
 			onerror="document.getElementById('tvImgError').style.display='block'"
 			alt="">
 		<div class="glow glow-window"></div>
@@ -471,7 +474,7 @@
 		</p>
 	</section>
 
-	<div id="tvImgError">Background photo didn't load: check the filename matches the repo exactly.</div>
+	<div id="tvImgError">Background photo didn't load: make sure packout-bg.jpg is in the repo next to index.html.</div>
 
 </main>
 
